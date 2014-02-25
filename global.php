@@ -1,5 +1,13 @@
 <?php
 
+include_once "DFCInterface.class.php";
+include_once "DFC.class.php";
+include_once "DFCAggregate.class.php";
+
+include_once "DSC.class.php";
+include_once "Db2PhpEntity.class.php";
+include_once "Db2PhpEntityBase.class.php";
+include_once "Db2PhpEntityModificationTracking.class.php";
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

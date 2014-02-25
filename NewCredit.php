@@ -10,7 +10,9 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-           
+        include "global.php";
+        include "dbclasses.php";
+     
         //Get read values
         $firstname = htmlentities($_GET["fname"]);
         $lastname = htmlentities($_GET["lname"]);
@@ -29,47 +31,62 @@ and open the template in the editor.
         $housenum = htmlentities($_GET["house_num"]);
         $paymentmode = htmlentities($_GET["PaymentMode"]);
         $amount = htmlentities($_GET["Amount"]);
-        $address = new address(htmlentities($_GET["street"]), htmlentities($_GET["area"]), htmlentities($_GET["city"]), htmlentities($_GET["PIN"]));
         
-        echo "person named $paidbyname who is a $payingparty residing in $block$housenum paid $amount towards purpose $purpose $remarks by $paymentmode";
+        echo "person named $firstname $lastname who is a $payingparty residing in $block$housenum paid $amount towards purpose $purpose $remarks by $paymentmode";
+        $address = new address(htmlentities($_GET["street"]), htmlentities($_GET["area"]), htmlentities($_GET["city"]), htmlentities($_GET["pin"]));
+        
+        $apt_id = NULL;
+        $agency_id = NULL;
+        $party_id = NULL;
+        if($payingparty == "Resident"){
+            $apt = new AptInfo($block, $housenum);
+            //Apartment number has to exist
+            $apt_id = $apt->getAllFieldsFromDB(connectDB("NestAdmin", "nestadminpw"));  
+            $party_id = $apt_id;
+        } else if($payingparty == "EnternalAgency"){
+            $agency = new ExtAgencyInfo($ag_name, $ag_phone, $ag_address, NULL, NULL, NULL);
+            $agency_id = $agency->getAllFieldsFromDB(connectDB("NestAdmin", "nestadminpw"));     
+            //If the agency is not in the database (first time)
+            //****TO ADD LATER: confirm addition of new agency with user*****
+            if($agency_id == NULL){
+                $agency->insertIntoDatabase(connectDB("NestAdmin", "nestadminpw"));
+            }
+            $party_id = $agency_id;
+        }
         
         //If the person is not in the database (first time)
-        //****TO ADD LATER: confirm addition of new person with user*****
-        $person = new personInfo($firstname, $lastname, NULL, $address, $contact, NULL, NULL, NULL, NULL, NULL);
-        $person_id = $person->getAllFieldsFromDB();
+        $person = new personInfo($firstname, $lastname, $apt_id, $agency_id, NULL, $address, $contact, NULL, NULL, NULL, NULL, NULL, NULL);
+        $person_id = $person->getAllFieldsFromDB(connectDB("NestAdmin", "nestadminpw"));
         
+        //****TO ADD LATER: confirm addition of new person with user*****
         if($person_id == NULL)
         {
             $person->insertIntoDatabase(connectDB("NestAdmin", "nestadminpw"));
         }
+        $newtr = new MoneyTransaction('CREDIT', "NestAdmin", $payingparty, $party_id, $purpose, $remarks, NULL, $paymentmode, NULL, NULL, NULL, $amount);
         
-        $party_id = NULL;
-        if($payingparty == 'RESIDENT'){
-            $apt = new AptInfo($block, $housenum);
-            //Apartment number has to exist
-            $party_id = $apt->getAllFieldsFromDB();  
-            $person->setAptID($party_id);
-        } else if($payingparty == 'EXTERNAL_AGENCY'){
-            $agency = new ExtAgencyInfo($ag_name, $ag_phone, $ag_address, NULL, NULL, NULL);
-            $party_id = $agency->getAllFieldsFromDB();     
-            //If the agency is not in the database (first time)
-            //****TO ADD LATER: confirm addition of new agency with user*****
-            if($party_id == NULL){
-                $agency->insertIntoDatabase(connectDB("NestAdmin", "nestadminpw"));
-            }
-            $person->setAptID($party_id);
-        }
-        $query =  "INSERT INTO MoneyTransactions VALUES (DEFAULT, 'CREDIT', 'root', CURRENT_TIMESTAMP, $paidbyname, $amount, $purpose, $remarks, OWNER, NULL, $block, $housenum) ";
-echo $query;
-                mysqli_query($con, $query );
-       //$result = mysqli_query($con, "INSERT INTO MoneyTransactions VALUES (DEFAULT, 'CREDIT', 'root', CURRENT_TIMESTAMP, 'chetana', '32', '1', 'dsgdfghsfg', 'OWNER', NULL, 'C', 101') " );
-       echo "result is $result";
-       if (!$result) {
-           echo "mysql query failed reason: ";
-           echo " mysqli_error($con) ";
-       }
-       mysqli_close($con);
-                
+        /*** mysql hostname ***/
+$hostname = 'localhost';
+
+/*** mysql username ***/
+$username = "NestAdmin";
+
+/*** mysql password ***/
+$password = "nestadminpw";
+
+$dbname = "Nest_DB";
+
+try {
+    $dbh = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
+    /*** echo a message saying we have connected ***/
+    echo 'Connected to database';
+    }
+catch(PDOException $e)
+    {
+    echo $e->getMessage();
+    }
+        $newtr->insertIntoDatabase($dbh);
+               
         ?>
         
         

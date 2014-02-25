@@ -28,7 +28,9 @@ and open the template in the editor.
         <form name="NewCredit" action="NewCredit.php">
         
         
-            <input type="text" name="PaidByName" value="" /> Paid By <br/>
+            <input type="text" name="fname" value="" /> Paid By first name <br/>
+            
+            <input type="text" name="lname" value="" />
             <br/>
             
             <!should read list of different purpose from configuration file and return the ENUM values (1-N)>
@@ -49,6 +51,13 @@ and open the template in the editor.
            
             
             <input type="radio" name="PayingParty" value="EnternalAgency" /> External Agency
+            
+            
+            <input type="text" name="agname" value="" /> Agency name
+            <input type="text" name="street" value="" /> Address street
+            <input type="text" name="area" value="" /> Area
+            <input type="text" name="city" value="" /> city
+            <input type="text" name="pin" value="" /> pin
             
         <br/>
   

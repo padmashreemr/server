@@ -1,5 +1,5 @@
 <?php
-
+include_once "global.php";
 /**
  * 
  *
@@ -79,7 +79,7 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
 	private $ownerId;
 	private $tenantId;
 
-        public function __construct($block, $housenumber, $owner_id = NULL, $aptArea=NULL, $aptType=NULL, $aptUsage=NULL, $tenant_id = NULL) {
+        public function __construct($block, $housenumber, $owner_id, $aptArea, $aptType, $aptUsage, $tenant_id) {
             $this->block = $block;
             $this->houseNumber = $housenumber;
             $this->ownerId = $owner_id;
@@ -90,20 +90,7 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
             $this->aptId = NULL;
         }
         
-        public function saveApt(){
-            $con = connectDB("NestAdmin", "nestadminpw");
-            
-            $query = "INSERT IGNORE INTO person_info (firstname, lastname, phone, phone2, street, area, city, pin, PAN, personalIDType, personalIDNum, personalIDRemarks, nationality, otherinfo) 
-                VALUES($this->firstname, $this->lastname, $this->phone, $this->phone2, $this->address->street, $this->address->area, $this->address->PIN, $this->pan, $this->personalIdType, $this->personalIdNum, $this->personalIdRemarks, $this->nationality, $this->otherInfo);";
-                    
-             $result = mysqli_query($con, $query );
-                if ($result === FALSE){
-                    echo "person_info table creation failed";        
-
-                }
-                return result;
-        }
-               
+                     
 		/**
 	 * get value for apt_id 
 	 *
@@ -111,31 +98,29 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
 	 *
 	 * @return mixed
 	 */
-	public function getAllFieldsFromDB() {
+	public function getAllFieldsFromDB($con) {
             if($this->aptId == NULL)
             {
-                //find if the apartment exists in the database
-                $con = connectDB("NestAdmin", "nestadminpw");
-            
-                $query = "SELECT * from apt_info WHERE ((block = $this->block) AND (housenumber = $this->houseNumber))";
-                
-                if($result = $con->query($query)){
-                
-                    /* fetch associative array */
+                $query = "SELECT * from apt_info WHERE ((block = '$this->block') AND (house_number = '$this->houseNumber'))";
+                $result = $con->query($query);
+                if($result == FALSE){
+                    echo "$query failed";
+                }else{
+                    //fetch associative array 
                     while ($row = $result->fetch_assoc()) {
                         $this->aptId = $row["apt_id"];
                         $this->ownerId = $row["owner_id"];
-                        $this->aptArea = $row["$apt_area"];
-                        $this->aptType = $row["$apt_type"];
-                        $this->aptUsage = $row["$apt_usage"];
-                        $this->tenantId = $row["$tenant_id"];
+                        $this->aptArea = $row["apt_area"];
+                        $this->aptType = $row["apt_type"];
+                        $this->aptUsage = $row["apt_usage"];
+                        $this->tenantId = $row["tenant_id"];
                     }
                     
-                    /* free result set */
+                    // free result set 
                     $result->free();
                 }
-                /* close connection */
-                $mysqli->close();
+                // close connection 
+                $con->close();
                 
             }
 		return $this->aptId;

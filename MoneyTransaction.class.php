@@ -123,9 +123,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	private $trExecutor;
 	private $trParty;
 	private $trPersonId;
-	private $trBlock;
-	private $trHousenumber;
-	private $extAgencyId;
+        private $trAgencyId;
 	private $trPurpose;
 	private $trDetail;
 	private $trRemarks;
@@ -135,7 +133,28 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	private $trBankcode;
 	private $trAmount;
 
-	/**
+        public function __construct($type, $executor, $party, $partyid, $purpose, $detail, $remarks, $paymentmode, $paymentref, $bankname, $bankcode, $amount) {
+            $this->trAmount = $amount;
+            $this->trBankcode = $bankcode;
+            $this->trBankname = $bankname;
+            $this->trDetail = $detail;
+            $this->trExecutor = $executor;
+            $this->trParty = $party;
+            $this->trPaymentMode = $paymentmode;
+            $this->trPaymentRef = $paymentref;
+            if($this->trParty == "Resident"){
+                $this->trPersonId = $partyid;
+            }else if($this->trParty == "ExternalAgency"){
+                $this->trAgencyId = $partyid;
+            }
+            $this->trPurpose = $purpose;
+            $this->trRemarks = $remarks;
+            $this->trType = $type;
+            $this->trId = NULL;
+              
+        }
+        
+        /**
 	 * set value for tr_id 
 	 *
 	 * type:INT,size:10,default:null,primary,unique,autoincrement
@@ -567,7 +586,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	 *
 	 * @param int $fieldId
 	 * @param bool $fullyQualifiedName true if field name should be qualified by table name
-	 * @return string field name for the passed field id, null if the field doesn't exist
+	 * @return string field name for the passed field id, null if the field doesn"t exist
 	 */
 	public static function getFieldNameByFieldId($fieldId, $fullyQualifiedName=true) {
 		if (!array_key_exists($fieldId, self::$FIELD_NAMES)) {

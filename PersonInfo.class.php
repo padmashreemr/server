@@ -1,5 +1,5 @@
 <?php
-include "global.php";
+include_once "global.php";
 /**
  * 
  *
@@ -117,6 +117,8 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	private $lastname;
 	private $phone;
 	private $phone2;
+        private $aptId;
+        private $agencyId;
 	private $pan;
 	private $personalIdType;
 	private $personalIdNum;
@@ -124,10 +126,13 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	private $nationality;
 	private $otherInfo;
         private $address;
+        private $title;
 
-        public function __construct($firstname, $lastname, $title, $address, $contact, $altcontact, $PAN, $id_type, $id_number, $id_desc, $other_info){
+        public function __construct($firstname, $lastname, $apt_id, $agency_id, $title, $address, $contact, $altcontact, $PAN, $id_type, $id_number, $id_desc, $other_info){
                $this->firstname = $firstname;
                $this->lastname = $lastname;
+               $this->aptId = $apt_id;
+               $this->agencyId = $agency_id;
                $this->phone = $contact;
                $this->phone2 = $altcontact;
                $this->nationality = $nationality;
@@ -137,23 +142,46 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
                $this->personalIdNum = $id_number;
                $this->personalIdRemarks = $id_desc;
                $this->otherInfo = $other_info;
+               $this->title = $title;
         }
         
-        public function savePerson()
-        {
-            $con = connectDB("NestAdmin", "nestadminpw");
-            
-            $query = "INSERT IGNORE INTO person_info (firstname, lastname, phone, phone2, street, area, city, pin, PAN, personalIDType, personalIDNum, personalIDRemarks, nationality, otherinfo) 
-                VALUES($this->firstname, $this->lastname, $this->phone, $this->phone2, $this->address->street, $this->address->area, $this->address->PIN, $this->pan, $this->personalIdType, $this->personalIdNum, $this->personalIdRemarks, $this->nationality, $this->otherInfo);";
+        public function getAllFieldsFromDB($con) {
+            if($this->id == NULL)
+            {
+                //should include contact number to prove uniqueness... NEED TO DO THIS LATER
+                $query = "SELECT * from person_info WHERE ((firstname = '$this->firstname') AND (lastname = '$this->lastname'))";
+                $result = $con->query($query);
+                if($result == FALSE){
+                    echo "$query failed";
+                }else{
+                    //fetch associative array 
+                    while ($row = $result->fetch_assoc()) {
+                        $this->id = $row["id"];
+                        $this->phone = $row["contact"];
+                        $this->phone2 = $row["altcontact"];
+                        $this->nationality = $row["nationality"];
+                        $this->address = new address($row["street"], $row["area"], $row["city"], $row["PIN"]);
+                        $this->pan = $row["pan"];
+                        $this->personalIdType = $row["id_type"];
+                        $this->personalIdNum = $row["id_number"];
+                        $this->personalIdRemarks = $row["id_desc"];
+                        $this->otherInfo = $row["other_info"];
+                        $this->aptId = $row["apt_id"];
+                        $this->agencyId = $row["agency_id"];
+                        $this->title = $row["title"];
+                    }
                     
-             $result = mysqli_query($con, $query );
-                if ($result === FALSE){
-                    echo "person_info table creation failed";        
-
+                    // free result set 
+                    $result->free();
                 }
-                return result;
-        }
-	/**
+                // close connection 
+                $con->close();
+                
+            }
+		return $this->id;
+	}
+        
+      	/**
 	 * set value for id 
 	 *
 	 * type:INT,size:10,default:null,primary,unique,autoincrement
