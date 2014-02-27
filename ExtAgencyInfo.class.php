@@ -93,7 +93,8 @@ class ExtAgencyInfo extends Db2PhpEntityBase implements Db2PhpEntityModification
 	private $agService;
 	private $agRelation;
 
-        public function __construct($name, $address, $phone, $tin, $service, $relation) {
+	
+       public function __construct($name, $address, $phone, $tin, $service, $relation) {
             $this->agName = $name;
             $this->agPhone = $phone;
             $this->agStreet = $address->street;
@@ -116,7 +117,7 @@ class ExtAgencyInfo extends Db2PhpEntityBase implements Db2PhpEntityModification
                 if($result = $con->query($query)){
                 
                     /* fetch associative array */
-                    while ($row = $result->fetch_assoc()) {
+                    foreach ($result as $row) {
                         $this->agencyId = $row["agency_id"];
                         $this->agStreet = $row["ag_street"];
                         $this->agArea = $row["ag_area"];
@@ -128,15 +129,16 @@ class ExtAgencyInfo extends Db2PhpEntityBase implements Db2PhpEntityModification
                     }
                     
                     /* free result set */
-                    $result->free();
+                    $result->closeCursor();
                 }
                 /* close connection */
-                $mysqli->close();
+                $con = NULL;
                 
             }
 		return $this->agencyId;
 	}
-	/**
+ 
+        /**
 	 * set value for agency_id 
 	 *
 	 * type:INT,size:10,default:null,primary,unique,autoincrement
@@ -892,6 +894,19 @@ class ExtAgencyInfo extends Db2PhpEntityBase implements Db2PhpEntityModification
 	public function fetchMoneyTransactionCollection(PDO $db, $sort=null) {
 		$filter=array(MoneyTransaction::FIELD_EXT_AGENCY_ID=>$this->getAgencyId());
 		return MoneyTransaction::findByFilter($db, $filter, true, $sort);
+	}
+
+	/**
+	 * Fetch PersonInfo's which this ExtAgencyInfo references.
+	 * `ext_agency_info`.`agency_id` -> `person_info`.`agency_id`
+	 *
+	 * @param PDO $db a PDO Database instance
+	 * @param array $sort array of DSC instances
+	 * @return PersonInfo[]
+	 */
+	public function fetchPersonInfoCollection(PDO $db, $sort=null) {
+		$filter=array(PersonInfo::FIELD_AGENCY_ID=>$this->getAgencyId());
+		return PersonInfo::findByFilter($db, $filter, true, $sort);
 	}
 
 

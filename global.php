@@ -12,8 +12,22 @@ include_once "Db2PhpEntityModificationTracking.class.php";
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-function connectDB($user, $password)
+function connectDB($user = NULL, $password = NULL)
 {
+    if ($user == NULL)
+    {
+        $user = getcurrentusername();
+        $password = getcurrentuserpw();
+    }
+    try {
+        $dbh = new PDO('mysql:host=localhost;dbname=Nest_DB', $user, $password);
+        return $dbh;
+    } catch (PDOException $e) {
+        print "Error!: " . $e->getMessage() . "<br/>";
+        die();
+    }
+    
+    /*
     $mysqli = new mysqli("localhost", $user, $password);
 
     if ($mysqli->connect_error) {
@@ -25,10 +39,10 @@ function connectDB($user, $password)
     mysqli_set_charset($mysqli, 'utf-8');
 
     ///Connect to Nest_DB Database
-    /* change db to world db */
+    // change db to world db 
     mysqli_select_db($mysqli, "Nest_DB");
     
-    return $mysqli;
+    return $mysqli;*/
 }
 
 function getcurrentusername()

@@ -1,5 +1,5 @@
 <?php
-include_once "global.php";
+
 /**
  * 
  *
@@ -10,9 +10,9 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	private static $CLASS_NAME='PersonInfo';
 	const SQL_IDENTIFIER_QUOTE='`';
 	const SQL_TABLE_NAME='person_info';
-	const SQL_INSERT='INSERT INTO `person_info` (`id`,`firstname`,`lastname`,`phone`,`phone2`,`street`,`area`,`city`,`pin`,`PAN`,`personal_id_type`,`personal_id_num`,`personal_id_remarks`,`nationality`,`other_info`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `person_info` (`firstname`,`lastname`,`phone`,`phone2`,`street`,`area`,`city`,`pin`,`PAN`,`personal_id_type`,`personal_id_num`,`personal_id_remarks`,`nationality`,`other_info`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-	const SQL_UPDATE='UPDATE `person_info` SET `id`=?,`firstname`=?,`lastname`=?,`phone`=?,`phone2`=?,`street`=?,`area`=?,`city`=?,`pin`=?,`PAN`=?,`personal_id_type`=?,`personal_id_num`=?,`personal_id_remarks`=?,`nationality`=?,`other_info`=? WHERE `id`=?';
+	const SQL_INSERT='INSERT INTO `person_info` (`id`,`firstname`,`lastname`,`phone`,`phone2`,`street`,`area`,`city`,`pin`,`PAN`,`personal_id_type`,`personal_id_num`,`personal_id_remarks`,`nationality`,`other_info`,`apt_id`,`agency_id`,`title`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `person_info` (`firstname`,`lastname`,`phone`,`phone2`,`street`,`area`,`city`,`pin`,`PAN`,`personal_id_type`,`personal_id_num`,`personal_id_remarks`,`nationality`,`other_info`,`apt_id`,`agency_id`,`title`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+	const SQL_UPDATE='UPDATE `person_info` SET `id`=?,`firstname`=?,`lastname`=?,`phone`=?,`phone2`=?,`street`=?,`area`=?,`city`=?,`pin`=?,`PAN`=?,`personal_id_type`=?,`personal_id_num`=?,`personal_id_remarks`=?,`nationality`=?,`other_info`=?,`apt_id`=?,`agency_id`=?,`title`=? WHERE `id`=?';
 	const SQL_SELECT_PK='SELECT * FROM `person_info` WHERE `id`=?';
 	const SQL_DELETE_PK='DELETE FROM `person_info` WHERE `id`=?';
 	const FIELD_ID=-598406287;
@@ -30,6 +30,9 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	const FIELD_PERSONAL_ID_REMARKS=858428824;
 	const FIELD_NATIONALITY=-1231192026;
 	const FIELD_OTHER_INFO=-225259309;
+	const FIELD_APT_ID=1044933835;
+	const FIELD_AGENCY_ID=1192456319;
+	const FIELD_TITLE=1297972290;
 	private static $PRIMARY_KEYS=array(self::FIELD_ID);
 	private static $AUTOINCREMENT_FIELDS=array(self::FIELD_ID);
 	private static $FIELD_NAMES=array(
@@ -47,7 +50,10 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		self::FIELD_PERSONAL_ID_NUM=>'personal_id_num',
 		self::FIELD_PERSONAL_ID_REMARKS=>'personal_id_remarks',
 		self::FIELD_NATIONALITY=>'nationality',
-		self::FIELD_OTHER_INFO=>'other_info');
+		self::FIELD_OTHER_INFO=>'other_info',
+		self::FIELD_APT_ID=>'apt_id',
+		self::FIELD_AGENCY_ID=>'agency_id',
+		self::FIELD_TITLE=>'title');
 	private static $PROPERTY_NAMES=array(
 		self::FIELD_ID=>'id',
 		self::FIELD_FIRSTNAME=>'firstname',
@@ -63,7 +69,10 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		self::FIELD_PERSONAL_ID_NUM=>'personalIdNum',
 		self::FIELD_PERSONAL_ID_REMARKS=>'personalIdRemarks',
 		self::FIELD_NATIONALITY=>'nationality',
-		self::FIELD_OTHER_INFO=>'otherInfo');
+		self::FIELD_OTHER_INFO=>'otherInfo',
+		self::FIELD_APT_ID=>'aptId',
+		self::FIELD_AGENCY_ID=>'agencyId',
+		self::FIELD_TITLE=>'title');
 	private static $PROPERTY_TYPES=array(
 		self::FIELD_ID=>Db2PhpEntity::PHP_TYPE_INT,
 		self::FIELD_FIRSTNAME=>Db2PhpEntity::PHP_TYPE_STRING,
@@ -79,7 +88,10 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		self::FIELD_PERSONAL_ID_NUM=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_PERSONAL_ID_REMARKS=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_NATIONALITY=>Db2PhpEntity::PHP_TYPE_STRING,
-		self::FIELD_OTHER_INFO=>Db2PhpEntity::PHP_TYPE_STRING);
+		self::FIELD_OTHER_INFO=>Db2PhpEntity::PHP_TYPE_STRING,
+		self::FIELD_APT_ID=>Db2PhpEntity::PHP_TYPE_INT,
+		self::FIELD_AGENCY_ID=>Db2PhpEntity::PHP_TYPE_INT,
+		self::FIELD_TITLE=>Db2PhpEntity::PHP_TYPE_STRING);
 	private static $FIELD_TYPES=array(
 		self::FIELD_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,false),
 		self::FIELD_FIRSTNAME=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,250,0,true),
@@ -95,7 +107,10 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		self::FIELD_PERSONAL_ID_NUM=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,50,0,true),
 		self::FIELD_PERSONAL_ID_REMARKS=>array(Db2PhpEntity::JDBC_TYPE_LONGVARCHAR,65535,0,true),
 		self::FIELD_NATIONALITY=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,100,0,true),
-		self::FIELD_OTHER_INFO=>array(Db2PhpEntity::JDBC_TYPE_LONGVARCHAR,65535,0,true));
+		self::FIELD_OTHER_INFO=>array(Db2PhpEntity::JDBC_TYPE_LONGVARCHAR,65535,0,true),
+		self::FIELD_APT_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,true),
+		self::FIELD_AGENCY_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,true),
+		self::FIELD_TITLE=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,100,0,true));
 	private static $DEFAULT_VALUES=array(
 		self::FIELD_ID=>null,
 		self::FIELD_FIRSTNAME=>null,
@@ -111,24 +126,30 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		self::FIELD_PERSONAL_ID_NUM=>null,
 		self::FIELD_PERSONAL_ID_REMARKS=>null,
 		self::FIELD_NATIONALITY=>null,
-		self::FIELD_OTHER_INFO=>null);
+		self::FIELD_OTHER_INFO=>null,
+		self::FIELD_APT_ID=>null,
+		self::FIELD_AGENCY_ID=>null,
+		self::FIELD_TITLE=>null);
 	private $id;
 	private $firstname;
 	private $lastname;
 	private $phone;
 	private $phone2;
-        private $aptId;
-        private $agencyId;
+	private $street;
+	private $area;
+	private $city;
+	private $pin;
 	private $pan;
 	private $personalIdType;
 	private $personalIdNum;
 	private $personalIdRemarks;
 	private $nationality;
 	private $otherInfo;
-        private $address;
-        private $title;
+	private $aptId;
+	private $agencyId;
+	private $title;
 
-        public function __construct($firstname, $lastname, $apt_id, $agency_id, $title, $address, $contact, $altcontact, $PAN, $id_type, $id_number, $id_desc, $other_info){
+	 public function __construct($firstname, $lastname, $apt_id, $agency_id, $title, $address, $contact, $altcontact, $PAN, $id_type, $id_number, $id_desc, $other_info){
                $this->firstname = $firstname;
                $this->lastname = $lastname;
                $this->aptId = $apt_id;
@@ -155,7 +176,7 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
                     echo "$query failed";
                 }else{
                     //fetch associative array 
-                    while ($row = $result->fetch_assoc()) {
+                    foreach ($result as $row) {
                         $this->id = $row["id"];
                         $this->phone = $row["contact"];
                         $this->phone2 = $row["altcontact"];
@@ -172,16 +193,16 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
                     }
                     
                     // free result set 
-                    $result->free();
+                    $result->closeCursor();
                 }
                 // close connection 
-                $con->close();
+                $con = NULL;
                 
             }
 		return $this->id;
 	}
         
-      	/**
+        /**
 	 * set value for id 
 	 *
 	 * type:INT,size:10,default:null,primary,unique,autoincrement
@@ -557,6 +578,81 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	}
 
 	/**
+	 * set value for apt_id 
+	 *
+	 * type:INT,size:10,default:null,index,nullable
+	 *
+	 * @param mixed $aptId
+	 * @return PersonInfo
+	 */
+	public function &setAptId($aptId) {
+		$this->notifyChanged(self::FIELD_APT_ID,$this->aptId,$aptId);
+		$this->aptId=$aptId;
+		return $this;
+	}
+
+	/**
+	 * get value for apt_id 
+	 *
+	 * type:INT,size:10,default:null,index,nullable
+	 *
+	 * @return mixed
+	 */
+	public function getAptId() {
+		return $this->aptId;
+	}
+
+	/**
+	 * set value for agency_id 
+	 *
+	 * type:INT,size:10,default:null,index,nullable
+	 *
+	 * @param mixed $agencyId
+	 * @return PersonInfo
+	 */
+	public function &setAgencyId($agencyId) {
+		$this->notifyChanged(self::FIELD_AGENCY_ID,$this->agencyId,$agencyId);
+		$this->agencyId=$agencyId;
+		return $this;
+	}
+
+	/**
+	 * get value for agency_id 
+	 *
+	 * type:INT,size:10,default:null,index,nullable
+	 *
+	 * @return mixed
+	 */
+	public function getAgencyId() {
+		return $this->agencyId;
+	}
+
+	/**
+	 * set value for title 
+	 *
+	 * type:VARCHAR,size:100,default:null,nullable
+	 *
+	 * @param mixed $title
+	 * @return PersonInfo
+	 */
+	public function &setTitle($title) {
+		$this->notifyChanged(self::FIELD_TITLE,$this->title,$title);
+		$this->title=$title;
+		return $this;
+	}
+
+	/**
+	 * get value for title 
+	 *
+	 * type:VARCHAR,size:100,default:null,nullable
+	 *
+	 * @return mixed
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
 	 * Get table name
 	 *
 	 * @return string
@@ -681,7 +777,10 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 			self::FIELD_PERSONAL_ID_NUM=>$this->getPersonalIdNum(),
 			self::FIELD_PERSONAL_ID_REMARKS=>$this->getPersonalIdRemarks(),
 			self::FIELD_NATIONALITY=>$this->getNationality(),
-			self::FIELD_OTHER_INFO=>$this->getOtherInfo());
+			self::FIELD_OTHER_INFO=>$this->getOtherInfo(),
+			self::FIELD_APT_ID=>$this->getAptId(),
+			self::FIELD_AGENCY_ID=>$this->getAgencyId(),
+			self::FIELD_TITLE=>$this->getTitle());
 	}
 
 
@@ -938,6 +1037,9 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		$this->setPersonalIdRemarks($result['personal_id_remarks']);
 		$this->setNationality($result['nationality']);
 		$this->setOtherInfo($result['other_info']);
+		$this->setAptId($result['apt_id']);
+		$this->setAgencyId($result['agency_id']);
+		$this->setTitle($result['title']);
 	}
 
 	/**
@@ -987,6 +1089,9 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 		$stmt->bindValue(13,$this->getPersonalIdRemarks());
 		$stmt->bindValue(14,$this->getNationality());
 		$stmt->bindValue(15,$this->getOtherInfo());
+		$stmt->bindValue(16,$this->getAptId());
+		$stmt->bindValue(17,$this->getAgencyId());
+		$stmt->bindValue(18,$this->getTitle());
 	}
 
 
@@ -1013,6 +1118,9 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 			$stmt->bindValue(12,$this->getPersonalIdRemarks());
 			$stmt->bindValue(13,$this->getNationality());
 			$stmt->bindValue(14,$this->getOtherInfo());
+			$stmt->bindValue(15,$this->getAptId());
+			$stmt->bindValue(16,$this->getAgencyId());
+			$stmt->bindValue(17,$this->getTitle());
 		} else {
 			$stmt=self::prepareStatement($db,self::SQL_INSERT);
 			$this->bindValues($stmt);
@@ -1041,7 +1149,7 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	public function updateToDatabase(PDO $db) {
 		$stmt=self::prepareStatement($db,self::SQL_UPDATE);
 		$this->bindValues($stmt);
-		$stmt->bindValue(16,$this->getId());
+		$stmt->bindValue(19,$this->getId());
 		$affected=$stmt->execute();
 		if (false===$affected) {
 			$stmt->closeCursor();
@@ -1082,6 +1190,34 @@ class PersonInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTra
 	public function fetchMoneyTransactionCollection(PDO $db, $sort=null) {
 		$filter=array(MoneyTransaction::FIELD_TR_PERSON_ID=>$this->getId());
 		return MoneyTransaction::findByFilter($db, $filter, true, $sort);
+	}
+
+	/**
+	 * Fetch AptInfo which references this PersonInfo. Will return null in case reference is invalid.
+	 * `person_info`.`apt_id` -> `apt_info`.`apt_id`
+	 *
+	 * @param PDO $db a PDO Database instance
+	 * @param array $sort array of DSC instances
+	 * @return AptInfo
+	 */
+	public function fetchAptInfo(PDO $db, $sort=null) {
+		$filter=array(AptInfo::FIELD_APT_ID=>$this->getAptId());
+		$result=AptInfo::findByFilter($db, $filter, true, $sort);
+		return empty($result) ? null : $result[0];
+	}
+
+	/**
+	 * Fetch ExtAgencyInfo which references this PersonInfo. Will return null in case reference is invalid.
+	 * `person_info`.`agency_id` -> `ext_agency_info`.`agency_id`
+	 *
+	 * @param PDO $db a PDO Database instance
+	 * @param array $sort array of DSC instances
+	 * @return ExtAgencyInfo
+	 */
+	public function fetchExtAgencyInfo(PDO $db, $sort=null) {
+		$filter=array(ExtAgencyInfo::FIELD_AGENCY_ID=>$this->getAgencyId());
+		$result=ExtAgencyInfo::findByFilter($db, $filter, true, $sort);
+		return empty($result) ? null : $result[0];
 	}
 
 

@@ -1,5 +1,5 @@
 <?php
-include_once "global.php";
+
 /**
  * 
  *
@@ -79,7 +79,7 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
 	private $ownerId;
 	private $tenantId;
 
-        public function __construct($block, $housenumber, $owner_id, $aptArea, $aptType, $aptUsage, $tenant_id) {
+	public function __construct($block, $housenumber, $owner_id, $aptArea, $aptType, $aptUsage, $tenant_id) {
             $this->block = $block;
             $this->houseNumber = $housenumber;
             $this->ownerId = $owner_id;
@@ -107,7 +107,7 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
                     echo "$query failed";
                 }else{
                     //fetch associative array 
-                    while ($row = $result->fetch_assoc()) {
+                    foreach ($result as $row) {
                         $this->aptId = $row["apt_id"];
                         $this->ownerId = $row["owner_id"];
                         $this->aptArea = $row["apt_area"];
@@ -117,12 +117,38 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
                     }
                     
                     // free result set 
-                    $result->free();
+                    $result->closeCursor();
                 }
                 // close connection 
-                $con->close();
+                $con = NULL;
                 
             }
+		return $this->aptId;
+	}
+
+        
+        /**
+	 * set value for apt_id 
+	 *
+	 * type:INT,size:10,default:null,primary,unique,autoincrement
+	 *
+	 * @param mixed $aptId
+	 * @return AptInfo
+	 */
+	public function &setAptId($aptId) {
+		$this->notifyChanged(self::FIELD_APT_ID,$this->aptId,$aptId);
+		$this->aptId=$aptId;
+		return $this;
+	}
+
+	/**
+	 * get value for apt_id 
+	 *
+	 * type:INT,size:10,default:null,primary,unique,autoincrement
+	 *
+	 * @return mixed
+	 */
+	public function getAptId() {
 		return $this->aptId;
 	}
 
@@ -786,6 +812,19 @@ class AptInfo extends Db2PhpEntityBase implements Db2PhpEntityModificationTracki
 		}
 		$stmt->closeCursor();
 		return $affected;
+	}
+
+	/**
+	 * Fetch PersonInfo's which this AptInfo references.
+	 * `apt_info`.`apt_id` -> `person_info`.`apt_id`
+	 *
+	 * @param PDO $db a PDO Database instance
+	 * @param array $sort array of DSC instances
+	 * @return PersonInfo[]
+	 */
+	public function fetchPersonInfoCollection(PDO $db, $sort=null) {
+		$filter=array(PersonInfo::FIELD_APT_ID=>$this->getAptId());
+		return PersonInfo::findByFilter($db, $filter, true, $sort);
 	}
 
 	/**
