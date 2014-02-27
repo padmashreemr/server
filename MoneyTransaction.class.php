@@ -10,9 +10,9 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	private static $CLASS_NAME='MoneyTransaction';
 	const SQL_IDENTIFIER_QUOTE='`';
 	const SQL_TABLE_NAME='MoneyTransaction';
-	const SQL_INSERT='INSERT INTO `MoneyTransaction` (`tr_id`,`tr_type`,`tr_executor`,`tr_party`,`tr_person_id`,`tr_block`,`tr_housenumber`,`ext_agency_id`,`tr_purpose`,`tr_detail`,`tr_remarks`,`tr_payment_mode`,`tr_payment_ref`,`tr_bankname`,`tr_bankcode`,`tr_amount`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `MoneyTransaction` (`tr_type`,`tr_executor`,`tr_party`,`tr_person_id`,`tr_block`,`tr_housenumber`,`ext_agency_id`,`tr_purpose`,`tr_detail`,`tr_remarks`,`tr_payment_mode`,`tr_payment_ref`,`tr_bankname`,`tr_bankcode`,`tr_amount`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-	const SQL_UPDATE='UPDATE `MoneyTransaction` SET `tr_id`=?,`tr_type`=?,`tr_executor`=?,`tr_party`=?,`tr_person_id`=?,`tr_block`=?,`tr_housenumber`=?,`ext_agency_id`=?,`tr_purpose`=?,`tr_detail`=?,`tr_remarks`=?,`tr_payment_mode`=?,`tr_payment_ref`=?,`tr_bankname`=?,`tr_bankcode`=?,`tr_amount`=? WHERE `tr_id`=?';
+	const SQL_INSERT='INSERT INTO `MoneyTransaction` (`tr_id`,`tr_type`,`tr_executor`,`tr_party`,`tr_person_id`,`ext_agency_id`,`tr_purpose`,`tr_detail`,`tr_remarks`,`tr_payment_mode`,`tr_payment_ref`,`tr_bankname`,`tr_bankcode`,`tr_amount`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+	const SQL_INSERT_AUTOINCREMENT='INSERT INTO `MoneyTransaction` (`tr_type`,`tr_executor`,`tr_party`,`tr_person_id`,`ext_agency_id`,`tr_purpose`,`tr_detail`,`tr_remarks`,`tr_payment_mode`,`tr_payment_ref`,`tr_bankname`,`tr_bankcode`,`tr_amount`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+	const SQL_UPDATE='UPDATE `MoneyTransaction` SET `tr_id`=?,`tr_type`=?,`tr_executor`=?,`tr_party`=?,`tr_person_id`=?,`ext_agency_id`=?,`tr_purpose`=?,`tr_detail`=?,`tr_remarks`=?,`tr_payment_mode`=?,`tr_payment_ref`=?,`tr_bankname`=?,`tr_bankcode`=?,`tr_amount`=? WHERE `tr_id`=?';
 	const SQL_SELECT_PK='SELECT * FROM `MoneyTransaction` WHERE `tr_id`=?';
 	const SQL_DELETE_PK='DELETE FROM `MoneyTransaction` WHERE `tr_id`=?';
 	const FIELD_TR_ID=-989860180;
@@ -20,8 +20,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	const FIELD_TR_EXECUTOR=-1811895900;
 	const FIELD_TR_PARTY=327320501;
 	const FIELD_TR_PERSON_ID=1609958292;
-	const FIELD_TR_BLOCK=314715484;
-	const FIELD_TR_HOUSENUMBER=-884794376;
 	const FIELD_EXT_AGENCY_ID=579796775;
 	const FIELD_TR_PURPOSE=1594846765;
 	const FIELD_TR_DETAIL=1217186146;
@@ -39,8 +37,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		self::FIELD_TR_EXECUTOR=>'tr_executor',
 		self::FIELD_TR_PARTY=>'tr_party',
 		self::FIELD_TR_PERSON_ID=>'tr_person_id',
-		self::FIELD_TR_BLOCK=>'tr_block',
-		self::FIELD_TR_HOUSENUMBER=>'tr_housenumber',
 		self::FIELD_EXT_AGENCY_ID=>'ext_agency_id',
 		self::FIELD_TR_PURPOSE=>'tr_purpose',
 		self::FIELD_TR_DETAIL=>'tr_detail',
@@ -56,8 +52,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		self::FIELD_TR_EXECUTOR=>'trExecutor',
 		self::FIELD_TR_PARTY=>'trParty',
 		self::FIELD_TR_PERSON_ID=>'trPersonId',
-		self::FIELD_TR_BLOCK=>'trBlock',
-		self::FIELD_TR_HOUSENUMBER=>'trHousenumber',
 		self::FIELD_EXT_AGENCY_ID=>'extAgencyId',
 		self::FIELD_TR_PURPOSE=>'trPurpose',
 		self::FIELD_TR_DETAIL=>'trDetail',
@@ -73,8 +67,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		self::FIELD_TR_EXECUTOR=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_TR_PARTY=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_TR_PERSON_ID=>Db2PhpEntity::PHP_TYPE_INT,
-		self::FIELD_TR_BLOCK=>Db2PhpEntity::PHP_TYPE_STRING,
-		self::FIELD_TR_HOUSENUMBER=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_EXT_AGENCY_ID=>Db2PhpEntity::PHP_TYPE_INT,
 		self::FIELD_TR_PURPOSE=>Db2PhpEntity::PHP_TYPE_STRING,
 		self::FIELD_TR_DETAIL=>Db2PhpEntity::PHP_TYPE_STRING,
@@ -90,8 +82,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		self::FIELD_TR_EXECUTOR=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,20,0,true),
 		self::FIELD_TR_PARTY=>array(Db2PhpEntity::JDBC_TYPE_CHAR,15,0,true),
 		self::FIELD_TR_PERSON_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,true),
-		self::FIELD_TR_BLOCK=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,3,0,true),
-		self::FIELD_TR_HOUSENUMBER=>array(Db2PhpEntity::JDBC_TYPE_VARCHAR,10,0,true),
 		self::FIELD_EXT_AGENCY_ID=>array(Db2PhpEntity::JDBC_TYPE_INTEGER,10,0,true),
 		self::FIELD_TR_PURPOSE=>array(Db2PhpEntity::JDBC_TYPE_CHAR,15,0,true),
 		self::FIELD_TR_DETAIL=>array(Db2PhpEntity::JDBC_TYPE_LONGVARCHAR,65535,0,true),
@@ -107,8 +97,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		self::FIELD_TR_EXECUTOR=>null,
 		self::FIELD_TR_PARTY=>null,
 		self::FIELD_TR_PERSON_ID=>null,
-		self::FIELD_TR_BLOCK=>null,
-		self::FIELD_TR_HOUSENUMBER=>null,
 		self::FIELD_EXT_AGENCY_ID=>null,
 		self::FIELD_TR_PURPOSE=>null,
 		self::FIELD_TR_DETAIL=>null,
@@ -123,7 +111,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	private $trExecutor;
 	private $trParty;
 	private $trPersonId;
-        private $trAgencyId;
+	private $extAgencyId;
 	private $trPurpose;
 	private $trDetail;
 	private $trRemarks;
@@ -133,6 +121,8 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	private $trBankcode;
 	private $trAmount;
 
+	
+        
         public function __construct($type, $executor, $party, $partyid, $purpose, $detail, $remarks, $paymentmode, $paymentref, $bankname, $bankcode, $amount) {
             $this->trAmount = $amount;
             $this->trBankcode = $bankcode;
@@ -153,7 +143,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
             $this->trId = NULL;
               
         }
-        
+
         /**
 	 * set value for tr_id 
 	 *
@@ -277,56 +267,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	 */
 	public function getTrPersonId() {
 		return $this->trPersonId;
-	}
-
-	/**
-	 * set value for tr_block 
-	 *
-	 * type:VARCHAR,size:3,default:null,nullable
-	 *
-	 * @param mixed $trBlock
-	 * @return MoneyTransaction
-	 */
-	public function &setTrBlock($trBlock) {
-		$this->notifyChanged(self::FIELD_TR_BLOCK,$this->trBlock,$trBlock);
-		$this->trBlock=$trBlock;
-		return $this;
-	}
-
-	/**
-	 * get value for tr_block 
-	 *
-	 * type:VARCHAR,size:3,default:null,nullable
-	 *
-	 * @return mixed
-	 */
-	public function getTrBlock() {
-		return $this->trBlock;
-	}
-
-	/**
-	 * set value for tr_housenumber 
-	 *
-	 * type:VARCHAR,size:10,default:null,nullable
-	 *
-	 * @param mixed $trHousenumber
-	 * @return MoneyTransaction
-	 */
-	public function &setTrHousenumber($trHousenumber) {
-		$this->notifyChanged(self::FIELD_TR_HOUSENUMBER,$this->trHousenumber,$trHousenumber);
-		$this->trHousenumber=$trHousenumber;
-		return $this;
-	}
-
-	/**
-	 * get value for tr_housenumber 
-	 *
-	 * type:VARCHAR,size:10,default:null,nullable
-	 *
-	 * @return mixed
-	 */
-	public function getTrHousenumber() {
-		return $this->trHousenumber;
 	}
 
 	/**
@@ -586,7 +526,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	 *
 	 * @param int $fieldId
 	 * @param bool $fullyQualifiedName true if field name should be qualified by table name
-	 * @return string field name for the passed field id, null if the field doesn"t exist
+	 * @return string field name for the passed field id, null if the field doesn't exist
 	 */
 	public static function getFieldNameByFieldId($fieldId, $fullyQualifiedName=true) {
 		if (!array_key_exists($fieldId, self::$FIELD_NAMES)) {
@@ -670,8 +610,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 			self::FIELD_TR_EXECUTOR=>$this->getTrExecutor(),
 			self::FIELD_TR_PARTY=>$this->getTrParty(),
 			self::FIELD_TR_PERSON_ID=>$this->getTrPersonId(),
-			self::FIELD_TR_BLOCK=>$this->getTrBlock(),
-			self::FIELD_TR_HOUSENUMBER=>$this->getTrHousenumber(),
 			self::FIELD_EXT_AGENCY_ID=>$this->getExtAgencyId(),
 			self::FIELD_TR_PURPOSE=>$this->getTrPurpose(),
 			self::FIELD_TR_DETAIL=>$this->getTrDetail(),
@@ -927,8 +865,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		$this->setTrExecutor($result['tr_executor']);
 		$this->setTrParty($result['tr_party']);
 		$this->setTrPersonId($result['tr_person_id']);
-		$this->setTrBlock($result['tr_block']);
-		$this->setTrHousenumber($result['tr_housenumber']);
 		$this->setExtAgencyId($result['ext_agency_id']);
 		$this->setTrPurpose($result['tr_purpose']);
 		$this->setTrDetail($result['tr_detail']);
@@ -977,17 +913,15 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 		$stmt->bindValue(3,$this->getTrExecutor());
 		$stmt->bindValue(4,$this->getTrParty());
 		$stmt->bindValue(5,$this->getTrPersonId());
-		$stmt->bindValue(6,$this->getTrBlock());
-		$stmt->bindValue(7,$this->getTrHousenumber());
-		$stmt->bindValue(8,$this->getExtAgencyId());
-		$stmt->bindValue(9,$this->getTrPurpose());
-		$stmt->bindValue(10,$this->getTrDetail());
-		$stmt->bindValue(11,$this->getTrRemarks());
-		$stmt->bindValue(12,$this->getTrPaymentMode());
-		$stmt->bindValue(13,$this->getTrPaymentRef());
-		$stmt->bindValue(14,$this->getTrBankname());
-		$stmt->bindValue(15,$this->getTrBankcode());
-		$stmt->bindValue(16,$this->getTrAmount());
+		$stmt->bindValue(6,$this->getExtAgencyId());
+		$stmt->bindValue(7,$this->getTrPurpose());
+		$stmt->bindValue(8,$this->getTrDetail());
+		$stmt->bindValue(9,$this->getTrRemarks());
+		$stmt->bindValue(10,$this->getTrPaymentMode());
+		$stmt->bindValue(11,$this->getTrPaymentRef());
+		$stmt->bindValue(12,$this->getTrBankname());
+		$stmt->bindValue(13,$this->getTrBankcode());
+		$stmt->bindValue(14,$this->getTrAmount());
 	}
 
 
@@ -1004,17 +938,15 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 			$stmt->bindValue(2,$this->getTrExecutor());
 			$stmt->bindValue(3,$this->getTrParty());
 			$stmt->bindValue(4,$this->getTrPersonId());
-			$stmt->bindValue(5,$this->getTrBlock());
-			$stmt->bindValue(6,$this->getTrHousenumber());
-			$stmt->bindValue(7,$this->getExtAgencyId());
-			$stmt->bindValue(8,$this->getTrPurpose());
-			$stmt->bindValue(9,$this->getTrDetail());
-			$stmt->bindValue(10,$this->getTrRemarks());
-			$stmt->bindValue(11,$this->getTrPaymentMode());
-			$stmt->bindValue(12,$this->getTrPaymentRef());
-			$stmt->bindValue(13,$this->getTrBankname());
-			$stmt->bindValue(14,$this->getTrBankcode());
-			$stmt->bindValue(15,$this->getTrAmount());
+			$stmt->bindValue(5,$this->getExtAgencyId());
+			$stmt->bindValue(6,$this->getTrPurpose());
+			$stmt->bindValue(7,$this->getTrDetail());
+			$stmt->bindValue(8,$this->getTrRemarks());
+			$stmt->bindValue(9,$this->getTrPaymentMode());
+			$stmt->bindValue(10,$this->getTrPaymentRef());
+			$stmt->bindValue(11,$this->getTrBankname());
+			$stmt->bindValue(12,$this->getTrBankcode());
+			$stmt->bindValue(13,$this->getTrAmount());
 		} else {
 			$stmt=self::prepareStatement($db,self::SQL_INSERT);
 			$this->bindValues($stmt);
@@ -1043,7 +975,7 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	public function updateToDatabase(PDO $db) {
 		$stmt=self::prepareStatement($db,self::SQL_UPDATE);
 		$this->bindValues($stmt);
-		$stmt->bindValue(17,$this->getTrId());
+		$stmt->bindValue(15,$this->getTrId());
 		$affected=$stmt->execute();
 		if (false===$affected) {
 			$stmt->closeCursor();
@@ -1074,20 +1006,6 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	}
 
 	/**
-	 * Fetch PersonInfo which references this MoneyTransaction. Will return null in case reference is invalid.
-	 * `MoneyTransaction`.`tr_person_id` -> `person_info`.`id`
-	 *
-	 * @param PDO $db a PDO Database instance
-	 * @param array $sort array of DSC instances
-	 * @return PersonInfo
-	 */
-	public function fetchPersonInfo(PDO $db, $sort=null) {
-		$filter=array(PersonInfo::FIELD_ID=>$this->getTrPersonId());
-		$result=PersonInfo::findByFilter($db, $filter, true, $sort);
-		return empty($result) ? null : $result[0];
-	}
-
-	/**
 	 * Fetch ExtAgencyInfo which references this MoneyTransaction. Will return null in case reference is invalid.
 	 * `MoneyTransaction`.`ext_agency_id` -> `ext_agency_info`.`agency_id`
 	 *
@@ -1098,6 +1016,20 @@ class MoneyTransaction extends Db2PhpEntityBase implements Db2PhpEntityModificat
 	public function fetchExtAgencyInfo(PDO $db, $sort=null) {
 		$filter=array(ExtAgencyInfo::FIELD_AGENCY_ID=>$this->getExtAgencyId());
 		$result=ExtAgencyInfo::findByFilter($db, $filter, true, $sort);
+		return empty($result) ? null : $result[0];
+	}
+
+	/**
+	 * Fetch PersonInfo which references this MoneyTransaction. Will return null in case reference is invalid.
+	 * `MoneyTransaction`.`tr_person_id` -> `person_info`.`id`
+	 *
+	 * @param PDO $db a PDO Database instance
+	 * @param array $sort array of DSC instances
+	 * @return PersonInfo
+	 */
+	public function fetchPersonInfo(PDO $db, $sort=null) {
+		$filter=array(PersonInfo::FIELD_ID=>$this->getTrPersonId());
+		$result=PersonInfo::findByFilter($db, $filter, true, $sort);
 		return empty($result) ? null : $result[0];
 	}
 
