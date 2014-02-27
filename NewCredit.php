@@ -65,27 +65,8 @@ and open the template in the editor.
         }
         $newtr = new MoneyTransaction('CREDIT', "NestAdmin", $payingparty, $party_id, $purpose, $remarks, NULL, $paymentmode, NULL, NULL, NULL, $amount);
         
-        /*** mysql hostname ***/
-$hostname = 'localhost';
-
-/*** mysql username ***/
-$username = "NestAdmin";
-
-/*** mysql password ***/
-$password = "nestadminpw";
-
-$dbname = "Nest_DB";
-
-try {
-    $dbh = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
-    /*** echo a message saying we have connected ***/
-    echo 'Connected to database';
-    }
-catch(PDOException $e)
-    {
-    echo $e->getMessage();
-    }
-        $newtr->insertIntoDatabase($dbh);
+        
+        $newtr->insertIntoDatabase(connectDB());
                
         ?>
         
